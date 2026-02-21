@@ -59,7 +59,21 @@ export async function getEmployee(id) {
  * @returns undefined if employee with the given id does not exist
  */
 export async function updateEmployee({ id, name, birthday, salary }) {
-  // TODO
+  try {
+    const sql = `
+    UPDATE employees
+    SET (name, birthday, salary) = ($1, $2, $3) WHERE id = $4
+    RETURNING *;
+    `;
+
+    const { rows } = await db.query(sql, [name, birthday, salary, id]);
+    const modifiedEmployee = rows;
+
+    return modifiedEmployee[0];
+  } catch (e) {
+    console.error(e);
+    return undefined;
+  }
 }
 
 /**
@@ -67,5 +81,17 @@ export async function updateEmployee({ id, name, birthday, salary }) {
  * @returns undefined if employee with the given id does not exist
  */
 export async function deleteEmployee(id) {
-  // TODO
+  try {
+    const sql = `
+      DELETE FROM employees WHERE id = $1
+      RETURNING *;
+    `;
+    const { rows } = await db.query(sql, [id]);
+    const deleted = rows;
+
+    return deleted[0];
+  } catch (e) {
+    console.error(e);
+    return undefined;
+  }
 }

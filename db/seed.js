@@ -1,9 +1,12 @@
 import db from "#db/client";
 import { faker } from "@faker-js/faker";
-import { createEmployee, getEmployee } from "./queries/employees.js";
+import { createEmployee, deleteEmployee } from "./queries/employees.js";
 
 await db.connect();
 await seedEmployees();
+
+const changedEmployee = await deleteEmployee(2);
+console.log(changedEmployee); //fix DELETE
 
 await db.end();
 console.log("🌱 Database seeded.");
