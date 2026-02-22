@@ -12,7 +12,7 @@ app.use("/", (req, res, next) => {
 //* This is the "Logging Middleware"
 
 app.get("/", (req, res) => {
-  res.send("Welcome to the Fullstack Employees API");
+  res.send("Welcome to the Fullstack Employees API.");
 });
 
 app.use("/employees", router);
