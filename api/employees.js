@@ -1,7 +1,31 @@
 import express from "express";
-import { createEmployee, getEmployees } from "#db/queries/employees";
+import {
+  createEmployee,
+  getEmployees,
+  getEmployee,
+} from "#db/queries/employees";
 const router = express.Router();
 export default router;
+
+//! This router has to be at the top. If it is lower than "GET /", it will match
+//! with that first and exceute the WRONG code
+router.get("/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const numId = Number(id);
+
+    if (numId < 0 || numId > 10) {
+      res.status(400).send("Provided ID is not a positive integer");
+    }
+    const selectedEmployee = await getEmployee(numId);
+
+    !selectedEmployee
+      ? res.status(404).send("Selected employee does not exist")
+      : res.send(selectedEmployee);
+  } catch (e) {
+    console.error(e);
+  }
+});
 
 router.get("/", async (req, res) => {
   try {
