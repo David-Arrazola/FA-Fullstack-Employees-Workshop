@@ -1,10 +1,9 @@
 import db from "#db/client";
 import { faker } from "@faker-js/faker";
-import { createEmployee, getEmployee } from "./queries/employees.js";
+import { createEmployee, deleteEmployee } from "./queries/employees.js";
 
 await db.connect();
 await seedEmployees();
-
 await db.end();
 console.log("🌱 Database seeded.");
 
